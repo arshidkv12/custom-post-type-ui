@@ -1740,7 +1740,6 @@ function cptui_process_taxonomy() {
 			add_filter( 'cptui_taxonomy_deleted', '__return_true' );
 		}
 
-		// @TODO Utilize anonymous function to admin_notice `$result` if it happens to error.
 		if ( $result && is_callable( "cptui_{$result}_admin_notice" ) ) {
 			add_action( 'admin_notices', "cptui_{$result}_admin_notice" );
 		}
