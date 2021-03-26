@@ -1604,6 +1604,7 @@ function cptui_reserved_taxonomies() {
 		'term',
 		'theme',
 		'type',
+		'types',
 		'w',
 		'withcomments',
 		'withoutcomments',
