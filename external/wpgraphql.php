@@ -1,5 +1,7 @@
 <?php
 
+namespace CPTUI;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -7,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * This class creates settings for Custom Post Type UI to show Custom Post Types in GraphQL
  */
-class WPGraphQL_CPT_UI {
+class CPTUI_GraphQL {
 
 	/**
 	 * @var bool
@@ -213,6 +215,7 @@ class WPGraphQL_CPT_UI {
 							'aftertext'  => esc_html__( 'Whether or not to show data of this type in the WPGraphQL. Default: false', 'wp-graphql-custom-post-type-ui' ),
 							'selections' => $selections,
 							'default'    => false,
+							'required'   => true,
 						] );
 
 
@@ -222,6 +225,7 @@ class WPGraphQL_CPT_UI {
 							'labeltext' => esc_html__( 'GraphQL Single Name', 'wp-graphql-custom-post-type-ui' ),
 							'aftertext' => esc_attr__( 'Singular name for reference in the GraphQL API.', 'wp-graphql-custom-post-type-ui' ),
 							'textvalue' => ( isset( $current['graphql_single_name'] ) ) ? esc_attr( $current['graphql_single_name'] ) : '',
+							'required'  => true,
 						] );
 
 						echo $ui->get_text_input( [
@@ -230,6 +234,7 @@ class WPGraphQL_CPT_UI {
 							'labeltext' => esc_html__( 'GraphQL Plural Name', 'wp-graphql-custom-post-type-ui' ),
 							'aftertext' => esc_attr__( 'Plural name for reference in the GraphQL API.', 'wp-graphql-custom-post-type-ui' ),
 							'textvalue' => ( isset( $current['graphql_plural_name'] ) ) ? esc_attr( $current['graphql_plural_name'] ) : '',
+							'required'  => true,
 						] );
 						?>
 					</table>
@@ -237,15 +242,88 @@ class WPGraphQL_CPT_UI {
 			</div>
 		</div>
 		<?php
+		$this->graphql_field_helpers();
+	}
+
+	/**
+	 * JavaScript helpers to add conditional logic and support for the GraphQL setting fields
+	 */
+	public function graphql_field_helpers() {
+		// This script provides helpers for the GraphQL fields in the CPT UI screen.
+		// If the Post Type or Taxonomy is not set to show_in_graphql the single/plural names
+		// should not be required.
+		?>
+		<script type="application/javascript">
+			let singleName = document.getElementById('graphql_single_name');
+			let singleNameRow = singleName.closest('tr');
+			let pluralName = document.getElementById('graphql_plural_name');
+			let pluralNameRow = pluralName.closest('tr');
+			let showInGraphQL = document.getElementById('show_in_graphql');
+			let label = document.getElementById('label');
+			let singleLabel = document.getElementById('singular_label');
+
+			// Set the values of the GraphQL fields and their display state
+			function updateGraphQlFields() {
+
+				// Set default state for field values and display state
+				// If the show_in_graphql value is true (or '1') show the
+				// fields and set them as required
+				// Else hide the fields and leave them as not-required
+				if (showInGraphQL.value === '1') {
+					singleName.required = true;
+					pluralName.required = true;
+					pluralNameRow.style.display = "table-row";
+					singleNameRow.style.display = "table-row";
+				} else {
+					singleName.required = false;
+					pluralName.required = false;
+					pluralNameRow.style.display = "none";
+					singleNameRow.style.display = "none";
+				}
+
+				// If single_name has no value, but single_label does, use single_label as the value
+				if (!singleName.value.length) {
+					singleName.value = singleLabel.value;
+				}
+
+				// If single_name has no value, but single_label does, use single_label as the value
+				if (!pluralName.value.length) {
+					pluralName.value = label.value;
+				}
+			}
+
+			// Once the DOM is ready, listen for events
+			document.addEventListener("DOMContentLoaded", function () {
+				updateGraphQlFields();
+				// When the show in graphql field changes, re-apply GraphQL Field Values
+				showInGraphQL.addEventListener('input', function () {
+					updateGraphQlFields();
+				});
+			});
+		</script>
+		<?php
 	}
 }
 
 /**
  * Load WPGraphQL for CPT UI
  */
-add_action( 'cptui_loaded', 'init_wpgraphql_cptui' );
+add_action( 'cptui_loaded', __NAMESPACE__ . '\cptui_graphql_init' );
 
-function init_wpgraphql_cptui() {
-	$wpgraphql_cpt_ui = new WPGraphQL_CPT_UI();
+function cptui_graphql_init() {
+	if ( class_exists( 'WPGraphQL_CPT_UI' ) ) {
+		add_action( 'admin_notices', function () {
+			$link = trailingslashit( admin_url() ) . 'plugins.php';
+			?>
+			<div class="notice notice-error">
+				<p><?php echo sprintf( __( 'Custom Post Type UI has native support for WPGraphQL. Please <a href="%s">de-active</a> the "WPGraphQL for Custom Post Type UI" extension to proceed.', 'custom-post-type-ui' ), $link ); ?></p>
+			</div>
+			<?php
+		} );
+
+		return;
+	}
+
+	$wpgraphql_cpt_ui = new CPTUI_GraphQL();
 	$wpgraphql_cpt_ui->init();
 }
