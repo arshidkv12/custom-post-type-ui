@@ -196,6 +196,10 @@
   color: #cccccc;
 }
 
+.email-octopus-form-row-hp {
+  visibility: hidden;
+}
+
 .cptui-intro-devblock {
   display: -ms-flexbox;
   display: flex;
