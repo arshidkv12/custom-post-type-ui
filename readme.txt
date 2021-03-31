@@ -59,6 +59,7 @@ Official development of Custom Post Type UI is on GitHub, with official stable r
 * Fixed: Better handling of code in post_format based helper functions.
 * Updated: Cleaned up unused CSS.
 * Updated: Added `types` to disallowed taxonomy slugs.
+* Updated: Amended some helper text on the listings page regarding templates. Props @tarecord
 
 = 1.8.2 - 2020-12-29 =
 * Fixed: Addressed some missing available labels for taxonomies.
