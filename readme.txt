@@ -31,11 +31,12 @@ Official development of Custom Post Type UI is on GitHub, with official stable r
 
 == Changelog ==
 
-= 1.9.0 - TBD =
+= 1.9.0 - 2021-03-30 =
 * Added: WPGraphQL Support when WPGraphQL is installed and active.
 * Fixed: Better handling of code in post_format based helper functions.
 * Updated: Cleaned up unused CSS.
 * Updated: Added `types` to disallowed taxonomy slugs.
+* Updated: Amended some helper text on the listings page regarding templates. Props @tarecord
 
 = 1.8.2 - 2020-12-29 =
 * Fixed: Addressed some missing available labels for taxonomies.
@@ -53,7 +54,7 @@ Official development of Custom Post Type UI is on GitHub, with official stable r
 
 == Upgrade Notice ==
 
-= 1.9.0 - TBD =
+= 1.9.0 - 2021-03-30 =
 * Added: WPGraphQL Support when WPGraphQL is installed and active.
 * Fixed: Better handling of code in post_format based helper functions.
 * Updated: Cleaned up unused CSS.
