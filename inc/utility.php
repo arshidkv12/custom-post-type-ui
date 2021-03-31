@@ -395,7 +395,7 @@ function cptui_newsletter_form() {
             <input type="hidden"
                name="successRedirectUrl"
                value="">
-            <button type="submit">Subscribe</button>
+            <button type="submit" class="button button-secondary">Subscribe</button>
         </div>
     </form>
 </div>
