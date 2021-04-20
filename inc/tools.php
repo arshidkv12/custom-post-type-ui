@@ -347,11 +347,11 @@ foreach ( $taxonomy['labels'] as $key => $label ) {
 		"rest_controller_class" => "<?php echo $rest_controller_class; ?>",
 		"show_in_quick_edit" => <?php echo $show_in_quick_edit; ?>,
 <?php if ( $show_graphql ) : ?>
-		"show_in_graphql" => <?php echo (bool) esc_html( $taxonomy['show_in_graphql'] ); ?>,
+		"show_in_graphql" => <?php echo disp_boolean( $taxonomy['show_in_graphql'] ); ?>,
 		"graphql_single_name" => "<?php echo esc_html( $taxonomy['graphql_single_name'] ); ?>",
 		"show_in_graphql" => "<?php echo esc_html( $taxonomy['graphql_plural_name'] ); ?>",
 <?php else: ?>
-		"show_in_graphql" => 0,
+		"show_in_graphql" => <?php echo disp_boolean( false ); ?>,
 <?php endif; ?>
 <?php if ( ! empty( $meta_box_cb ) ) { ?>
 		"meta_box_cb" => <?php echo $meta_box_cb; ?>,
@@ -594,11 +594,11 @@ function cptui_get_single_post_type_registery( $post_type = [] ) {
 		"yarpp_support" => <?php echo disp_boolean( $yarpp ); ?>,
 <?php } ?>
 <?php if ( $show_graphql ) : ?>
-		"show_in_graphql" => <?php echo (bool) esc_html( $post_type['show_in_graphql'] ); ?>,
+		"show_in_graphql" => <?php echo disp_boolean( $post_type['show_in_graphql'] ); ?>,
 		"graphql_single_name" => "<?php echo esc_html( $post_type['graphql_single_name'] ); ?>",
 		"show_in_graphql" => "<?php echo esc_html( $post_type['graphql_plural_name'] ); ?>",
 <?php else: ?>
-		"show_in_graphql" => 0,
+		"show_in_graphql" => <?php echo disp_boolean( false ); ?>,
 <?php endif; ?>
 	];
 
