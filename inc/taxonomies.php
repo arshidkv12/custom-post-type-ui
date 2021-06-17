@@ -1531,6 +1531,7 @@ function cptui_reserved_taxonomies() {
 		'customized',
 		'cpage',
 		'day',
+		'date',
 		'debug',
 		'error',
 		'exact',
