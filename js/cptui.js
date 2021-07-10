@@ -141,13 +141,23 @@ postboxes.add_postbox_toggles(pagenow);
 	}
 
 	function composePreviewContent(value) {
+
+		var re = /(http|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?/;
+		var is_url = re.test(value);
+
 		if (!value) {
 			return '';
 		} else if (0 === value.indexOf('dashicons-')) {
-			return $('<div class="dashicons-before"><br></div>').addClass(value);
-		} else {
-			return $('<img />').attr('src', value);
+			return $('<div class="dashicons-before"><br></div>').addClass(htmlEncode(value));
+		} else if ( is_url ) {
+			return $('<img />').attr('src', encodeURI(value));
 		}
+	}
+
+	function htmlEncode(str) {
+		return String(str).replace(/[^\w. ]/gi, function (c) {
+			return '&#' + c.charCodeAt(0) + ';';
+		});
 	}
 
 	var cyrillic = {
