@@ -41,7 +41,7 @@ postboxes.add_postbox_toggles(pagenow);
 			'buttons'       : {
 				"OK": function() {
 					var form = $(e.target).closest('form');
-					$(e.target).unbind('click').click();
+					$(e.target).off('click').click();
 				},
 				"Cancel": function() {
 					$(this).dialog('close');
@@ -194,7 +194,8 @@ postboxes.add_postbox_toggles(pagenow);
 	});
 
 	$('#menu_icon').on('change', function () {
-		var value = $(this).val().trim();
+		var value = $(this).val();
+		value = value.trim();
 		$('#menu_icon_preview').html(composePreviewContent(value));
 	});
 
