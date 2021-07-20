@@ -150,7 +150,10 @@ postboxes.add_postbox_toggles(pagenow);
 		} else if (0 === value.indexOf('dashicons-')) {
 			return $('<div class="dashicons-before"><br></div>').addClass(htmlEncode(value));
 		} else if ( is_url ) {
-			return $('<img />').attr('src', encodeURI(value));
+			var imgsrc = encodeURI(value);
+			var theimg = document.createElement('IMG');
+			theimg.src = imgsrc;
+			return theimg;
 		}
 	}
 
